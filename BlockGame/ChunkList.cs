@@ -11,7 +11,7 @@ public class ChunkList
         this[0, 0, 0].Blocks[0, 0, 0] = new Block(0,0,0);
     }
     
-    private List<List<List<Chunk>>> chunks = new();
+    private List<List<List<Chunk>>> chunks = [[[new Chunk()]]];
     public Chunk this[int x, int y, int z]
     {
         get
