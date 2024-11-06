@@ -33,7 +33,7 @@ public class World
                 triangleVertices.AddRange(triangle);
             }
         }
-        VertexPosition[] debug_verts = new VertexPosition[6];
+        /*VertexPosition[] debug_verts = new VertexPosition[6];
         debug_verts[0] = new VertexPosition(new Vector3(
             0, 20, 0));
         debug_verts[1] = new VertexPosition(new Vector3(
@@ -45,9 +45,9 @@ public class World
         debug_verts[4] = new VertexPosition(new Vector3(
             0, 0, 0));
         debug_verts[5] = new VertexPosition(new Vector3(
-            40, 0, 0));
+            40, 0, 0));*/
         
-        triangleVertices.AddRange(debug_verts);
+        //triangleVertices.AddRange(debug_verts);
 
         vertexBuffer = new VertexBuffer(device, typeof(VertexPosition), triangleVertices.Count, BufferUsage.WriteOnly);
         vertexBuffer.SetData(triangleVertices.ToArray());

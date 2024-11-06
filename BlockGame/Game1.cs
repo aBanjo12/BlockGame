@@ -61,6 +61,8 @@ namespace BlockGame
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             world = new World(GraphicsDevice);
+
+            TextureRegistry.block = Content.Load<Texture2D>("block");
         }
 
         protected override void UnloadContent()

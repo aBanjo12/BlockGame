@@ -27,6 +27,8 @@ public class Camera
         //BasicEffect
         basicEffect = new BasicEffect(device);
         basicEffect.Alpha = 1f;
+        basicEffect.Texture = TextureRegistry.block;
+        basicEffect.TextureEnabled = true;
 
         // Want to see the colors of the vertices, this needs to be on
         //basicEffect.VertexColorEnabled = true;
@@ -71,6 +73,8 @@ public class Camera
     
     public void Draw(GraphicsDevice device, VertexBuffer vertexBuffer)
     {
+        device.Clear(Color.CornflowerBlue);
+
         basicEffect.Projection = projectionMatrix;
         basicEffect.View = viewMatrix;
         basicEffect.World = worldMatrix;
@@ -79,7 +83,6 @@ public class Camera
             pass.Apply();
             device.DrawPrimitives(PrimitiveType.TriangleList, 0, vertexBuffer.VertexCount);
         }
-        device.Clear(Color.CornflowerBlue);
 
         Console.WriteLine(vertexBuffer.VertexCount);
     }

@@ -7,16 +7,17 @@ public class Block
 {
     public Block(byte x, byte y, byte z)
     {
+        int blocksize = 256;
         vertices =
         [
-            new VertexPosition(new Vector3(x, y, z) * 20), //front top left
-            new VertexPosition(new Vector3(x + 1, y, z) * 20), //front top right
-            new VertexPosition(new Vector3(x + 1, y + 1, z) * 20), //front bottom right
-            new VertexPosition(new Vector3(x, y + 1, z) * 20), //front bottom left
-            new VertexPosition(new Vector3(x, y, z + 1) * 20), //back top left
-            new VertexPosition(new Vector3(x + 1, y, z + 1) * 20), //back top right
-            new VertexPosition(new Vector3(x + 1, y + 1, z + 1) * 20), //back bottom right
-            new VertexPosition(new Vector3(x, y + 1, z + 1) * 20) //back bottom left
+            new VertexPositionTexture(new Vector3(x, y, z) * blocksize, V), //front top left
+            new VertexPositionTexture(new Vector3(x + 1, y, z) * blocksize), //front top right
+            new VertexPositionTexture(new Vector3(x + 1, y + 1, z) * blocksize), //front bottom right
+            new VertexPositionTexture(new Vector3(x, y + 1, z) * blocksize), //front bottom left
+            new VertexPositionTexture(new Vector3(x, y, z + 1) * blocksize), //back top left
+            new VertexPositionTexture(new Vector3(x + 1, y, z + 1) * blocksize), //back top right
+            new VertexPositionTexture(new Vector3(x + 1, y + 1, z + 1) * blocksize), //back bottom right
+            new VertexPositionTexture(new Vector3(x, y + 1, z + 1) * blocksize) //back bottom left
         ];
 
         triangles = new VertexPosition[][]
@@ -36,6 +37,6 @@ public class Block
         };
     }
     
-    public VertexPosition[] vertices;
-    public VertexPosition[][] triangles;
+    public VertexPositionTexture[] vertices;
+    public VertexPositionTexture[][] triangles;
 }
