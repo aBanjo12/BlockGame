@@ -1,4 +1,6 @@
-namespace BlockGame;
+using BlockGame.World;
+
+namespace BlockGame.World;
 
 public class Chunk
 {

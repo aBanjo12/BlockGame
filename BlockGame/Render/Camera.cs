@@ -1,9 +1,10 @@
 using System;
+using BlockGame.Registry;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace BlockGame;
+namespace BlockGame.Render;
 
 public class Camera
 {

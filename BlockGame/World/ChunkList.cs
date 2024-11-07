@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace BlockGame;
+namespace BlockGame.World;
 
 public class ChunkList
 {

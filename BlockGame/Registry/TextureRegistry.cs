@@ -1,8 +1,8 @@
 using Microsoft.Xna.Framework.Graphics;
 
-namespace BlockGame;
+namespace BlockGame.Registry;
 
-public class TextureRegistry
+public static class TextureRegistry
 {
     public static Texture2D block;
 }

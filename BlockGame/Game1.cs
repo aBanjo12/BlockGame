@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using BlockGame.Registry;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -21,7 +22,7 @@ namespace BlockGame
         //Orbit
         bool orbit = false;
 
-        private World world;
+        private World.World world;
 
         public Game1()
         {
@@ -60,7 +61,7 @@ namespace BlockGame
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            world = new World(GraphicsDevice);
+            world = new World.World(GraphicsDevice);
 
             TextureRegistry.block = Content.Load<Texture2D>("block");
         }
@@ -94,6 +95,7 @@ namespace BlockGame
             RasterizerState rasterizerState = new RasterizerState();
             rasterizerState.CullMode = CullMode.None;
             GraphicsDevice.RasterizerState = rasterizerState;
+            
             world.Draw(GraphicsDevice, spriteBatch);
             
             base.Draw(gameTime);

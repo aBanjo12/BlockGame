@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework;
+using BlockGame.Render;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace BlockGame;
+namespace BlockGame.World;
 
 public class World
 {

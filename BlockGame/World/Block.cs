@@ -1,7 +1,8 @@
+using BlockGame.Render;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace BlockGame;
+namespace BlockGame.World;
 
 public class Block
 {
@@ -20,9 +21,9 @@ public class Block
             new Vector3(x, y + 1, z + 1) * blocksize //back bottom left
         ];
 
-        
+        Texture = new BlockTexture();
     }
     
     public Vector3[] Vertices;
-    public BlockFace[] Faces;
+    public BlockTexture Texture;
 }
