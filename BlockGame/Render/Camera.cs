@@ -41,13 +41,16 @@ public class Camera
         //If you want to use lighting and VPC you need to create a custom def
         basicEffect.LightingEnabled = false;
     }
+    
+    double xTransform = 0;
+    double yTransform = 0;
 
     public void Update()
     {
         MouseState state = Mouse.GetState();
 
-        double xTransform = 300 - state.X;
-        double yTransform = 300 - state.Y;
+        xTransform += 300 - state.X;
+        yTransform += 300 - state.Y;
 
         double xangle = (xTransform * Sensitivity) * (Math.PI/180);
         double yangle = (yTransform * Sensitivity) * (Math.PI/180);
@@ -56,6 +59,7 @@ public class Camera
         double yCircleChords = Math.Sin(yangle);
 
         lookVector = new Vector3((float)xCircleChords, 0, (float)yCircleChords);
+        Console.WriteLine(lookVector);
         
         Mouse.SetPosition(300,300);
 
