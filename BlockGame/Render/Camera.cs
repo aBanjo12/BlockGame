@@ -10,16 +10,19 @@ public class Camera
 {
     public Vector3 camTarget;
     public Vector3 camPosition;
+    public Vector3 lookVector = Vector3.Forward;
     public Matrix projectionMatrix;
     public Matrix viewMatrix;
     public Matrix worldMatrix;
+
+    public float Sensitivity = 1f;
     
     public BasicEffect basicEffect;
 
     public Camera(GraphicsDevice device)
     {
         camTarget = new Vector3(0f, 0f, 0f);
-        camPosition = new Vector3(0f, 0f, -100f);
+        camPosition = new Vector3(0f, 0f, 100f);
         projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(90f), 
             device.DisplayMode.AspectRatio, 1f, 1000f);
         viewMatrix = Matrix.CreateLookAt(camPosition, camTarget, new Vector3(0f, 1f, 0f));// Y up
@@ -41,6 +44,25 @@ public class Camera
 
     public void Update()
     {
+        MouseState state = Mouse.GetState();
+
+        double xTransform = 300 - state.X;
+        double yTransform = 300 - state.Y;
+
+        double xangle = (xTransform * Sensitivity) * (Math.PI/180);
+        double yangle = (yTransform * Sensitivity) * (Math.PI/180);
+
+        double xCircleChords = Math.Cos(xangle);
+        double yCircleChords = Math.Sin(yangle);
+
+        lookVector = new Vector3((float)xCircleChords, 0, (float)yCircleChords);
+        
+        Mouse.SetPosition(300,300);
+
+        if (Keyboard.GetState().IsKeyDown(Keys.P))
+            lookVector = Vector3.Forward;
+        
+        
         if (Keyboard.GetState().IsKeyDown(Keys.Left))
         {
             camPosition.X += 1f;
@@ -69,6 +91,9 @@ public class Camera
         {
             camPosition.Z -= 1f;
         }
+
+        camTarget = camPosition - lookVector;
+        
         viewMatrix = Matrix.CreateLookAt(camPosition, camTarget, Vector3.Up);
     }
     
