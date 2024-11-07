@@ -9,6 +9,7 @@ public class ChunkList
     {
         this[0, 0, 0] = new Chunk();
         this[0, 0, 0].Blocks[0, 0, 0] = new Block(0,0,0);
+        this[0, 0, 0].Blocks[1, 0, 0] = new Block(1,0,0);
     }
     
     private List<List<List<Chunk>>> chunks = [[[new Chunk()]]];

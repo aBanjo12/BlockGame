@@ -43,23 +43,23 @@ public class Camera
     {
         if (Keyboard.GetState().IsKeyDown(Keys.Left))
         {
-            camPosition.X -= 1f;
-            camTarget.X -= 1f;
-        }
-        if (Keyboard.GetState().IsKeyDown(Keys.Right))
-        {
             camPosition.X += 1f;
             camTarget.X += 1f;
         }
-        if (Keyboard.GetState().IsKeyDown(Keys.Up))
+        if (Keyboard.GetState().IsKeyDown(Keys.Right))
         {
-            camPosition.Y -= 1f;
-            camTarget.Y -= 1f;
+            camPosition.X -= 1f;
+            camTarget.X -= 1f;
         }
-        if (Keyboard.GetState().IsKeyDown(Keys.Down))
+        if (Keyboard.GetState().IsKeyDown(Keys.Up))
         {
             camPosition.Y += 1f;
             camTarget.Y += 1f;
+        }
+        if (Keyboard.GetState().IsKeyDown(Keys.Down))
+        {
+            camPosition.Y -= 1f;
+            camTarget.Y -= 1f;
         }
         if(Keyboard.GetState().IsKeyDown(Keys.W))
         {
@@ -84,7 +84,5 @@ public class Camera
             pass.Apply();
             device.DrawPrimitives(PrimitiveType.TriangleList, 0, vertexBuffer.VertexCount);
         }
-
-        Console.WriteLine(vertexBuffer.VertexCount);
     }
 }

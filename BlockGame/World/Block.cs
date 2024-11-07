@@ -8,7 +8,7 @@ public class Block
 {
     public Block(byte x, byte y, byte z)
     {
-        int blocksize = 256;
+        int blocksize = 20;
         Vertices =
         [
             new Vector3(x, y, z) * blocksize, //front top left
@@ -21,7 +21,7 @@ public class Block
             new Vector3(x, y + 1, z + 1) * blocksize //back bottom left
         ];
 
-        Texture = new BlockTexture();
+        Texture = new BlockTexture(ref Vertices, 256);
     }
     
     public Vector3[] Vertices;
