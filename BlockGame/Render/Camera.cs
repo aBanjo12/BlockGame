@@ -15,7 +15,7 @@ public class Camera
     public Matrix viewMatrix;
     public Matrix worldMatrix;
 
-    public float Sensitivity = 1f;
+    public float Sensitivity = .001f;
     
     public BasicEffect basicEffect;
 
@@ -45,27 +45,33 @@ public class Camera
     double xTransform = 0;
     double yTransform = 0;
 
+    private MouseState prevState = Mouse.GetState();
+
     public void Update()
     {
         MouseState state = Mouse.GetState();
 
-        xTransform += 300 - state.X;
-        yTransform += 300 - state.Y;
+        xTransform += prevState.X - state.X;
+        yTransform += prevState.Y - state.Y;
+        Console.WriteLine($"X: {xTransform}, Y: {yTransform}");
 
-        double xangle = (xTransform * Sensitivity) * (Math.PI/180);
-        double yangle = (yTransform * Sensitivity) * (Math.PI/180);
+        double xangle = (xTransform * Sensitivity);
+        double yangle = (yTransform * Sensitivity);
 
-        double xCircleChords = Math.Cos(xangle);
-        double yCircleChords = Math.Sin(yangle);
+        xangle %= Math.Tau;
+        Math.Clamp(yangle, 0f, Math.PI);
 
-        lookVector = new Vector3((float)xCircleChords, 0, (float)yCircleChords);
-        Console.WriteLine(lookVector);
+        double x = Math.Cos(xangle) * Math.Sin(yangle);
+        double y = Math.Sin(xangle) * Math.Sin(yangle);
+        double z = Math.Cos(yangle);
+
+        lookVector = new Vector3((float)x, (float)y, (float)z);
+        //Console.WriteLine(lookVector);
         
-        Mouse.SetPosition(300,300);
-
         if (Keyboard.GetState().IsKeyDown(Keys.P))
             lookVector = Vector3.Forward;
         
+        prevState = state;
         
         if (Keyboard.GetState().IsKeyDown(Keys.Left))
         {
