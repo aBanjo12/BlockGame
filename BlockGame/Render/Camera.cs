@@ -55,21 +55,23 @@ public class Camera
         basicEffect.LightingEnabled = false;
     }
 
-    public void Update(MouseState mouseState, KeyboardState keyboardState)
+    public void Update()
     {
-        // Handle mouse movement for camera rotation
-            var deltaX = mouseState.X - lastMousePosition.X;
-            var deltaY = mouseState.Y - lastMousePosition.Y;
-
-            yaw -= deltaX * rotationSpeed;
-            pitch -= deltaY * rotationSpeed;
-
-            pitch = MathHelper.Clamp(pitch, -MathHelper.PiOver2 + 0.1f, MathHelper.PiOver2 - 0.1f);
-
-            // Update the last mouse position
-            lastMousePosition = new Vector2(mouseState.X, mouseState.Y);
+        MouseState mouseState = Mouse.GetState();
+        KeyboardState keyboardState = Keyboard.GetState();
         
+        // Handle mouse movement for camera rotation
+        var deltaX = mouseState.X - lastMousePosition.X;
+        var deltaY = mouseState.Y - lastMousePosition.Y;
 
+        yaw -= deltaX * rotationSpeed;
+        pitch -= deltaY * rotationSpeed;
+
+        pitch = MathHelper.Clamp(pitch, -MathHelper.PiOver2 + 0.1f, MathHelper.PiOver2 - 0.1f);
+
+        // Update the last mouse position
+        lastMousePosition = new Vector2(mouseState.X, mouseState.Y);
+        
         // Handle keyboard input for camera movement
         if (keyboardState.IsKeyDown(Keys.W)) Position += Vector3.Transform(Vector3.Forward, Matrix.CreateFromYawPitchRoll(yaw, pitch, roll)) * movementSpeed;
         if (keyboardState.IsKeyDown(Keys.S)) Position -= Vector3.Transform(Vector3.Forward, Matrix.CreateFromYawPitchRoll(yaw, pitch, roll)) * movementSpeed;

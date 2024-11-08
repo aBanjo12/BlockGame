@@ -20,7 +20,7 @@ public class World
     
     public void Update()
     {
-        cam.Update(Mouse.GetState(), Keyboard.GetState());
+        cam.Update();
     }
 
     public void Draw(GraphicsDevice device, SpriteBatch spriteBatch)

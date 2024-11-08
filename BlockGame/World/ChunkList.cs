@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Microsoft.Xna.Framework;
 
 namespace BlockGame.World;
 
@@ -17,15 +18,11 @@ public class ChunkList
     {
         get
         {
-            if (chunks[x][y][y] != null)
-            {
-                return chunks[x][y][z];
-            }
-            else
-            {
-                return null;
-            }
+            if (chunks[x][y][y] != null) return chunks[x][y][z];
+            chunks[x][y][z] = new Chunk();
+            chunks[x][y][z].Generate();
+            return chunks[x][y][z];
         }
-        set => chunks[x][y][z] = value;
+        private init => chunks[x][y][z] = value;
     }
 }
