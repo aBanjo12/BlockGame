@@ -6,27 +6,40 @@ using Microsoft.Xna.Framework.Input;
 
 namespace BlockGame.Render;
 
+/*
+ *
+ * 
+ */
+
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+
 public class Camera
 {
-    public Vector3 camTarget;
-    public Vector3 camPosition;
-    public Vector3 lookVector = Vector3.Forward;
-    public Matrix projectionMatrix;
-    public Matrix viewMatrix;
-    public Matrix worldMatrix;
+    public Vector3 Position { get; private set; }
+    public Vector3 Target { get; private set; }
+    public Vector3 Up { get; private set; }
+    public Matrix View { get; private set; }
+    public Matrix Projection { get; private set; }
 
-    public float Sensitivity = 1f;
-    
-    public BasicEffect basicEffect;
+    private float yaw; // Rotation around the Y-axis (left/right)
+    private float pitch; // Rotation around the X-axis (up/down)
+    private float roll; // Rotation around the Z-axis (not used in this example)
 
-    public Camera(GraphicsDevice device)
+    private float movementSpeed = 5f; // Camera movement speed
+    private float rotationSpeed = 0.005f; // Camera rotation speed
+
+    private Vector2 lastMousePosition;
+
+    private BasicEffect basicEffect;
+    public Camera(Vector3 startPosition, Vector3 startTarget, Vector3 startUp, GraphicsDevice device)
     {
-        camTarget = new Vector3(0f, 0f, 0f);
-        camPosition = new Vector3(0f, 0f, 100f);
-        projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(90f), 
-            device.DisplayMode.AspectRatio, 1f, 1000f);
-        viewMatrix = Matrix.CreateLookAt(camPosition, camTarget, new Vector3(0f, 1f, 0f));// Y up
-        worldMatrix = Matrix.CreateWorld(camTarget, Vector3.Forward, Vector3.Up);
+        Position = startPosition;
+        Target = startTarget;
+        Up = startUp;
+
+        View = Matrix.CreateLookAt(Position, Target, Up);
+        Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 16f / 9f, 0.1f, 1000f);
         
         //BasicEffect
         basicEffect = new BasicEffect(device);
@@ -41,73 +54,48 @@ public class Camera
         //If you want to use lighting and VPC you need to create a custom def
         basicEffect.LightingEnabled = false;
     }
-    
-    double xTransform = 0;
-    double yTransform = 0;
 
-    public void Update()
+    public void Update(MouseState mouseState, KeyboardState keyboardState)
     {
-        MouseState state = Mouse.GetState();
+        // Handle mouse movement for camera rotation
+            var deltaX = mouseState.X - lastMousePosition.X;
+            var deltaY = mouseState.Y - lastMousePosition.Y;
 
-        xTransform += 300 - state.X;
-        yTransform += 300 - state.Y;
+            yaw -= deltaX * rotationSpeed;
+            pitch -= deltaY * rotationSpeed;
 
-        double xangle = (xTransform * Sensitivity) * (Math.PI/180);
-        double yangle = (yTransform * Sensitivity) * (Math.PI/180);
+            pitch = MathHelper.Clamp(pitch, -MathHelper.PiOver2 + 0.1f, MathHelper.PiOver2 - 0.1f);
 
-        double xCircleChords = Math.Cos(xangle);
-        double yCircleChords = Math.Sin(yangle);
-
-        lookVector = new Vector3((float)xCircleChords, 0, (float)yCircleChords);
-        Console.WriteLine(lookVector);
+            // Update the last mouse position
+            lastMousePosition = new Vector2(mouseState.X, mouseState.Y);
         
-        Mouse.SetPosition(300,300);
 
-        if (Keyboard.GetState().IsKeyDown(Keys.P))
-            lookVector = Vector3.Forward;
-        
-        
-        if (Keyboard.GetState().IsKeyDown(Keys.Left))
-        {
-            camPosition.X += 1f;
-            camTarget.X += 1f;
-        }
-        if (Keyboard.GetState().IsKeyDown(Keys.Right))
-        {
-            camPosition.X -= 1f;
-            camTarget.X -= 1f;
-        }
-        if (Keyboard.GetState().IsKeyDown(Keys.Up))
-        {
-            camPosition.Y += 1f;
-            camTarget.Y += 1f;
-        }
-        if (Keyboard.GetState().IsKeyDown(Keys.Down))
-        {
-            camPosition.Y -= 1f;
-            camTarget.Y -= 1f;
-        }
-        if(Keyboard.GetState().IsKeyDown(Keys.W))
-        {
-            camPosition.Z += 1f;
-        }
-        if (Keyboard.GetState().IsKeyDown(Keys.S))
-        {
-            camPosition.Z -= 1f;
-        }
+        // Handle keyboard input for camera movement
+        if (keyboardState.IsKeyDown(Keys.W)) Position += Vector3.Transform(Vector3.Forward, Matrix.CreateFromYawPitchRoll(yaw, pitch, roll)) * movementSpeed;
+        if (keyboardState.IsKeyDown(Keys.S)) Position -= Vector3.Transform(Vector3.Forward, Matrix.CreateFromYawPitchRoll(yaw, pitch, roll)) * movementSpeed;
+        if (keyboardState.IsKeyDown(Keys.A)) Position -= Vector3.Transform(Vector3.Right, Matrix.CreateFromYawPitchRoll(yaw, pitch, roll)) * movementSpeed;
+        if (keyboardState.IsKeyDown(Keys.D)) Position += Vector3.Transform(Vector3.Right, Matrix.CreateFromYawPitchRoll(yaw, pitch, roll)) * movementSpeed;
 
-        camTarget = camPosition - lookVector;
-        
-        viewMatrix = Matrix.CreateLookAt(camPosition, camTarget, Vector3.Up);
+        // Update the camera's target based on the yaw and pitch
+        var forward = Vector3.Transform(Vector3.Forward, Matrix.CreateFromYawPitchRoll(yaw, pitch, roll));
+        Target = Position + forward;
+
+        // Update the view matrix
+        View = Matrix.CreateLookAt(Position, Target, Up);
+    }
+
+    public void ResetMousePosition(int screenWidth, int screenHeight)
+    {
+        lastMousePosition = new Vector2(screenWidth / 2, screenHeight / 2);
+        Mouse.SetPosition(screenWidth / 2, screenHeight / 2);
     }
     
     public void Draw(GraphicsDevice device, VertexBuffer vertexBuffer)
     {
         device.Clear(Color.CornflowerBlue);
 
-        basicEffect.Projection = projectionMatrix;
-        basicEffect.View = viewMatrix;
-        basicEffect.World = worldMatrix;
+        basicEffect.Projection = Projection;
+        basicEffect.View = View;
         foreach(EffectPass pass in basicEffect.CurrentTechnique.Passes)
         {
             pass.Apply();

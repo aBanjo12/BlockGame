@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using BlockGame.Render;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace BlockGame.World;
 
@@ -13,12 +15,12 @@ public class World
 
     public World(GraphicsDevice device)
     {
-        cam = new Camera(device);
+        cam = new Camera(new Vector3(0, 0, -100), new Vector3(0, 0, 0), Vector3.Up, device);
     }
     
     public void Update()
     {
-        cam.Update();
+        cam.Update(Mouse.GetState(), Keyboard.GetState());
     }
 
     public void Draw(GraphicsDevice device, SpriteBatch spriteBatch)
