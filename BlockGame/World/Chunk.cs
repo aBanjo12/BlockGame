@@ -1,5 +1,4 @@
-using BlockGame.World;
-using Microsoft.Xna.Framework;
+ using Microsoft.Xna.Framework;
 
 using static BlockGame.Constants;
 
@@ -26,6 +25,11 @@ public class Chunk
                 }
             }
         }
+    }
+
+    public void BlockChanged(byte x, byte y, byte z)
+    {
+        
     }
     
     public Block[,,] Blocks = new Block[16, 16, 16];

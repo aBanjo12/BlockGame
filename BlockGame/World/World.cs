@@ -30,7 +30,7 @@ public class World
         {
             if (block == null)
                 continue;
-            foreach (var triangle in block.Texture.Faces)
+            foreach (var triangle in block.Texture.Faces.Where(x => x.render))
             {
                 triangleVertices.AddRange(triangle.triangle1.Verticies);
                 triangleVertices.AddRange(triangle.triangle2.Verticies);

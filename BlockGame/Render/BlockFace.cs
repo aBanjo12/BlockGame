@@ -27,31 +27,38 @@ public class BlockFace
     ];
 
     public Vector2[] TextureChords;
-    
+    public RenderTriangle triangle1;
+    public RenderTriangle triangle2;
+    public bool render = true;
+
     public BlockFace(ref Vector3[] verticies, Faces face, int textureSize)
     {
-        TextureChords = [
+        TextureChords =
+        [
             new(0, 0),
             new(1, 0),
             new(1, 1),
             new(0, 1)
         ];
-        
+
         triangle1 = new RenderTriangle([
-            new VertexPositionTexture(verticies[VertIndexes[(int)face*2][0]], TextureChords[(int)TexturePosition.TOP_LEFT]),
-            new VertexPositionTexture(verticies[VertIndexes[(int)face*2][1]], TextureChords[(int)TexturePosition.TOP_RIGHT]),
-            new VertexPositionTexture(verticies[VertIndexes[(int)face*2][2]], TextureChords[(int)TexturePosition.BOTTOM_RIGHT]),
+            new VertexPositionTexture(verticies[VertIndexes[(int)face * 2][0]],
+                TextureChords[(int)TexturePosition.TOP_LEFT]),
+            new VertexPositionTexture(verticies[VertIndexes[(int)face * 2][1]],
+                TextureChords[(int)TexturePosition.TOP_RIGHT]),
+            new VertexPositionTexture(verticies[VertIndexes[(int)face * 2][2]],
+                TextureChords[(int)TexturePosition.BOTTOM_RIGHT]),
         ]);
-        
+
         triangle2 = new RenderTriangle([
-            new VertexPositionTexture(verticies[VertIndexes[(int)face*2 + 1][0]], TextureChords[(int)TexturePosition.TOP_LEFT]),
-            new VertexPositionTexture(verticies[VertIndexes[(int)face*2 + 1][1]], TextureChords[(int)TexturePosition.BOTTOM_LEFT]),
-            new VertexPositionTexture(verticies[VertIndexes[(int)face*2 + 1][2]], TextureChords[(int)TexturePosition.BOTTOM_RIGHT]),
+            new VertexPositionTexture(verticies[VertIndexes[(int)face * 2 + 1][0]],
+                TextureChords[(int)TexturePosition.TOP_LEFT]),
+            new VertexPositionTexture(verticies[VertIndexes[(int)face * 2 + 1][1]],
+                TextureChords[(int)TexturePosition.BOTTOM_LEFT]),
+            new VertexPositionTexture(verticies[VertIndexes[(int)face * 2 + 1][2]],
+                TextureChords[(int)TexturePosition.BOTTOM_RIGHT]),
         ]);
     }
-    
-    public RenderTriangle triangle1;
-    public RenderTriangle triangle2;
 }
 
 public enum TexturePosition : int
