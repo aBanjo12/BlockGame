@@ -12,6 +12,9 @@ public class World
     public ChunkList ChunkList = new();
     VertexBuffer vertexBuffer;
     public Camera cam;
+    
+    Vector2 xRenderDistance = new(-3, 3);
+    Vector2 zRenderDistance = new(-3, 3);
 
     public World(GraphicsDevice device)
     {
@@ -20,20 +23,28 @@ public class World
     
     public void Update()
     {
+        
         cam.Update();
     }
 
     public void Draw(GraphicsDevice device, SpriteBatch spriteBatch)
     {
         List<VertexPositionTexture> triangleVertices = new();
-        foreach (var block in ChunkList[0, 0, 0].Blocks)
+
+        for (var x = xRenderDistance.X; x < xRenderDistance.Y; x++)
         {
-            if (block == null)
-                continue;
-            foreach (var triangle in block.Texture.Faces.Where(x => x.render))
+            for (var z = zRenderDistance.X; z < zRenderDistance.Y; z++)
             {
-                triangleVertices.AddRange(triangle.triangle1.Verticies);
-                triangleVertices.AddRange(triangle.triangle2.Verticies);
+                foreach (var block in ChunkList[(int)x, 0, (int)z].Blocks)
+                {
+                    if (block == null)
+                        continue;
+                    foreach (var triangle in block.Texture.Faces.Where(x => x.render))
+                    {
+                        triangleVertices.AddRange(triangle.triangle1.Verticies);
+                        triangleVertices.AddRange(triangle.triangle2.Verticies);
+                    }
+                }
             }
         }
 

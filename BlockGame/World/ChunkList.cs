@@ -8,20 +8,20 @@ public class ChunkList
 {
     public ChunkList()
     {
-        this[0, 0, 0] = new Chunk();
+        this[0, 0, 0] = new Chunk(new Vector3(0, 0, 0));
         this[0, 0, 0].Generate();
     }
     
-    private List<List<List<Chunk>>> chunks = [[[new Chunk()]]];
+    private Dictionary<(int, int, int), Chunk> chunks = new();
     public Chunk this[int x, int y, int z]
     {
         get
         {
-            if (chunks[x][y][y] != null) return chunks[x][y][z];
-            chunks[x][y][z] = new Chunk();
-            chunks[x][y][z].Generate();
-            return chunks[x][y][z];
+            if (chunks.ContainsKey((x, y, z))) return chunks[(x, y, z)];
+            chunks.Add((x, y, z), new Chunk(new Vector3(x, y, z)));
+            chunks[(x, y, z)].Generate();
+            return chunks[(x, y, z)];
         }
-        private init => chunks[x][y][z] = value;
+        private init => chunks[(x, y, z)] = value;
     }
 }
