@@ -8,8 +8,6 @@ public class ChunkList
 {
     public ChunkList()
     {
-        this[0, 0, 0] = new Chunk(new Vector3(0, 0, 0));
-        this[0, 0, 0].Generate();
     }
     
     private Dictionary<(int, int, int), Chunk> chunks = new();

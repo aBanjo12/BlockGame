@@ -23,7 +23,6 @@ public class World
     
     public void Update()
     {
-        
         cam.Update();
     }
 
