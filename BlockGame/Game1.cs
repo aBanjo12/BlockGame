@@ -1,4 +1,5 @@
-﻿using BlockGame.Registry;
+﻿using BlockGame.Event;
+using BlockGame.Registry;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -84,6 +85,7 @@ namespace BlockGame
             //                   rotationMatrix);
             // }
             world.Update();
+            EventHandler.Update();
             base.Update(gameTime);
         }
 

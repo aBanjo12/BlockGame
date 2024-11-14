@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using BlockGame.Event;
+using BlockGame.Event.Events;
 using Microsoft.Xna.Framework;
 
 namespace BlockGame.World;
@@ -17,7 +19,7 @@ public class ChunkList
         {
             if (chunks.ContainsKey((x, y, z))) return chunks[(x, y, z)];
             chunks.Add((x, y, z), new Chunk(new Vector3(x, y, z)));
-            chunks[(x, y, z)].Generate();
+            EventHandler.Events.Add(new CullFace(this[x, y, z], this));
             return chunks[(x, y, z)];
         }
         private init => chunks[(x, y, z)] = value;

@@ -1,3 +1,4 @@
+ using BlockGame.Event;
  using Microsoft.Xna.Framework;
 
 using static BlockGame.Constants;
@@ -6,7 +7,7 @@ namespace BlockGame.World;
 
 public class Chunk
 {
-    private Vector3 ChunkChords;
+    public Vector3 ChunkChords;
     public Chunk(Vector3 ChunkChords)
     {
         this.ChunkChords = ChunkChords;
