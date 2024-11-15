@@ -13,6 +13,7 @@ public class World
     public ChunkList ChunkList = new();
     VertexBuffer vertexBuffer;
     public Camera cam;
+    public SpriteFont font;
     
     Vector2 xRenderDistance = new(-3, 3);
     Vector2 zRenderDistance = new(-3, 3);
@@ -27,9 +28,13 @@ public class World
         cam.Update();
     }
 
-    public void Draw(GraphicsDevice device, SpriteBatch spriteBatch)
+    public void Draw(ref GraphicsDevice device, SpriteBatch spriteBatch)
     {
+        device.Clear(Color.CornflowerBlue);
+
         List<VertexPositionTexture> triangleVertices = new();
+        
+
 
         for (var x = xRenderDistance.X; x < xRenderDistance.Y; x++)
         {
@@ -52,5 +57,13 @@ public class World
         vertexBuffer.SetData(triangleVertices.ToArray());
         device.SetVertexBuffer(vertexBuffer);
         cam.Draw(device, vertexBuffer);
+        
+        GraphicsDevice d = device;
+        
+        spriteBatch.Begin();
+        spriteBatch.DrawString(font, "test", new Vector2(10, 10), Color.White);
+        spriteBatch.End();
+        
+        device = d;
     }
 }

@@ -8,8 +8,12 @@ namespace BlockGame.World;
 
 public class ChunkList
 {
+    public Vector2 XRenderDistance, YRenderDistance;
+    
     public ChunkList()
     {
+        XRenderDistance = new Vector2(-3, 3);
+        YRenderDistance = new Vector2(-3, 3);
     }
     
     private Dictionary<(int, int, int), Chunk> chunks = new();
@@ -23,5 +27,10 @@ public class ChunkList
             return chunks[(x, y, z)];
         }
         private init => chunks[(x, y, z)] = value;
+    }
+
+    public bool IsChunkOutOfRender(int x, int y, int z)
+    {
+        return true;
     }
 }

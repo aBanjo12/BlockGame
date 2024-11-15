@@ -94,8 +94,6 @@ public class Camera
     
     public void Draw(GraphicsDevice device, VertexBuffer vertexBuffer)
     {
-        device.Clear(Color.CornflowerBlue);
-
         basicEffect.Projection = Projection;
         basicEffect.View = View;
         foreach(EffectPass pass in basicEffect.CurrentTechnique.Passes)
